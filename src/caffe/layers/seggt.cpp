@@ -36,7 +36,7 @@ void SegGtLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype> *> &bottom,
                                     const vector<Blob<Dtype> *> &top) {
         const Dtype *gt_data = bottom[0]->cpu_data();
         Dtype *top_data = top[0]->mutable_cpu_data();
-        memset(top_data, 0, top[0]->cound() * sizeof(Dtype));
+        memset(top_data, 0, top[0]->count() * sizeof(Dtype));
         map<int, vector<NormalizedBBox> > all_gt_bboxes;
         map<int, vector<NormalizedBBox> >::iterator all_gt_bboxes_i;
         GetGroundTruth(gt_data, num_gt_, background_label_id_, use_difficult_gt_,
