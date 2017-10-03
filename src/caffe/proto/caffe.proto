@@ -1606,9 +1606,9 @@ message ScaleParameter {
 }
 
 message SegGtParameter {
-  optional uint32 background_label_id = 0 [default = 0];
+  optional uint32 background_label_id = 1 [default = 0];
   // If true, also consider difficult ground truth.
-  optional bool use_difficult_gt = 1 [default = true];
+  optional bool use_difficult_gt = 2 [default = true];
   // If true, perform negative mining.
 }
 
