@@ -101,3 +101,7 @@ MANIFEST-*
 jobs
 temp
 examples/*/*lmdb
+
+# Jupyter files
+*DEV.ipynb
+core.*
