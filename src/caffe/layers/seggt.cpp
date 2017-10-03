@@ -33,7 +33,6 @@ template <typename Dtype>
 void SegGtLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype> *> &bottom,
                                     const vector<Blob<Dtype> *> &top) {
         const Dtype *gt_data = bottom[0]->cpu_data();
-        const Dtype *pred_data = bottom[1]->cpu_data();
         Dtype *top_data = top[0]->mutable_cpu_data();
         map<int, vector<NormalizedBBox> > all_gt_bboxes;
         map<int, vector<NormalizedBBox> >::iterator all_gt_bboxes_i;
