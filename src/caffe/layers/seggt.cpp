@@ -84,7 +84,7 @@ template <typename Dtype>
 void SegGtLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype> *> &top,
                                      const vector<bool> &propagate_down,
                                      const vector<Blob<Dtype> *> &bottom) {
-        ; // Do Nothing Here
+        NOT_IMPLEMENTED; // Do Nothing Here
 }
 
 #ifdef CPU_ONLY
