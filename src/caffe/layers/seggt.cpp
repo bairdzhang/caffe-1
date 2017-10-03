@@ -8,7 +8,7 @@ namespace caffe {
 template <typename Dtype>
 void SegGtLayer<Dtype>::LayerSetUp(const vector<Blob<Dtype> *> &bottom,
                                    const vector<Blob<Dtype> *> &top) {
-        seggt_param_ = this->layer_param_.multibox_loss_param();
+        seggt_param_ = this->layer_param_.seggt_param();
         background_label_id_ = seggt_param_.background_label_id();
         use_difficult_gt_ = seggt_param_.use_difficult_gt();
         num_ = bottom[1]->shape(0);
