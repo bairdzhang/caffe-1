@@ -6,8 +6,8 @@
 namespace caffe {
 
 template <typename Dtype>
-void SegGt<Dtype>::LayerSetUp(const vector<Blob<Dtype> *> &bottom,
-                              const vector<Blob<Dtype> *> &top) {
+void SegGtLayer<Dtype>::LayerSetUp(const vector<Blob<Dtype> *> &bottom,
+                                   const vector<Blob<Dtype> *> &top) {
         seggt_param_ = this->layer_param_.multibox_loss_param();
         background_label_id_ = seggt_param_.background_label_id();
         use_difficult_gt_ = seggt_param_.use_difficult_gt();
@@ -18,8 +18,8 @@ void SegGt<Dtype>::LayerSetUp(const vector<Blob<Dtype> *> &bottom,
 }
 
 template <typename Dtype>
-void SegGt<Dtype>::Reshape(const vector<Blob<Dtype> *> &bottom,
-                           const vector<Blob<Dtype> *> &top) {
+void SegGtLayer<Dtype>::Reshape(const vector<Blob<Dtype> *> &bottom,
+                                const vector<Blob<Dtype> *> &top) {
         num_ = bottom[1]->shape(0);
         height_ = bottom[1].shape(2);
         width_ = bottom[1].shape(3);
@@ -28,8 +28,8 @@ void SegGt<Dtype>::Reshape(const vector<Blob<Dtype> *> &bottom,
 }
 
 template <typename Dtype>
-void SegGt<Dtype>::Forward_cpu(const vector<Blob<Dtype> *> &bottom,
-                               const vector<Blob<Dtype> *> &top) {
+void SegGtLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype> *> &bottom,
+                                    const vector<Blob<Dtype> *> &top) {
         const Dtype *gt_data = bottom[0]->cpu_data();
         const Dtype *pred_data = bottom[1]->cpu_data();
         Dtype *top_data = top[0]->mutable_cpu_data();
@@ -80,9 +80,9 @@ void SegGt<Dtype>::Forward_cpu(const vector<Blob<Dtype> *> &bottom,
 }
 
 template <typename Dtype>
-void SegGt<Dtype>::Backward_cpu(const vector<Blob<Dtype> *> &top,
-                                const vector<bool> &propagate_down,
-                                const vector<Blob<Dtype> *> &bottom) {
+void SegGtLayer<Dtype>::Backward_cpu(const vector<Blob<Dtype> *> &top,
+                                     const vector<bool> &propagate_down,
+                                     const vector<Blob<Dtype> *> &bottom) {
         ; // Do Nothing Here
 }
 
