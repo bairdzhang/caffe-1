@@ -14,6 +14,7 @@ void SegGtLayer<Dtype>::LayerSetUp(const vector<Blob<Dtype> *> &bottom,
         num_ = bottom[1]->shape(0);
         height_ = bottom[1]->shape(2);
         width_ = bottom[1]->shape(3);
+        num_gt_ = bottom[0]->height();
         top[0]->Reshape(num_, 1, height_, width_);
         min_size = (Dtype *)malloc(num_ * height_ * width_ * sizeof(Dtype));
 }
@@ -24,6 +25,7 @@ void SegGtLayer<Dtype>::Reshape(const vector<Blob<Dtype> *> &bottom,
         num_ = bottom[1]->shape(0);
         height_ = bottom[1]->shape(2);
         width_ = bottom[1]->shape(3);
+        num_gt_ = bottom[0]->height();
         top[0]->Reshape(num_, 1, height_, width_);
         free(min_size);
         min_size = (Dtype *)malloc(num_ * height_ * width_ * sizeof(Dtype));
