@@ -12,8 +12,9 @@ void SegGtLayer<Dtype>::LayerSetUp(const vector<Blob<Dtype> *> &bottom,
         background_label_id_ = seggt_param_.background_label_id();
         use_difficult_gt_ = seggt_param_.use_difficult_gt();
         num_ = bottom[1]->shape(0);
-        height_ = bottom[1].shape(2);
-        width_ = bottom[1].shape(3);
+        height_ = bottom[1]->shape(2);
+        width_ = bottom[1]->shape(3);
+        top[0]->reshape(num_, 1, height_, width_);
         min_size = (Dtype *)malloc(num_ * height_ * width_ * sizeof(Dtype));
 }
 
@@ -21,8 +22,9 @@ template <typename Dtype>
 void SegGtLayer<Dtype>::Reshape(const vector<Blob<Dtype> *> &bottom,
                                 const vector<Blob<Dtype> *> &top) {
         num_ = bottom[1]->shape(0);
-        height_ = bottom[1].shape(2);
-        width_ = bottom[1].shape(3);
+        height_ = bottom[1]->shape(2);
+        width_ = bottom[1]->shape(3);
+        top[0]->reshape(num_, 1, height_, width_);
         free(min_size);
         min_size = (Dtype *)malloc(num_ * height_ * width_ * sizeof(Dtype));
 }
