@@ -46,11 +46,12 @@ void SegGtLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype> *> &bottom,
                 int shift1 = i * height_ * width_;
                 all_gt_bboxes_i = all_gt_bboxes.find(i);
                 if (all_gt_bboxes_i == all_gt_bboxes.end()) {
+                  LOG(INFO)<<"continued "<<i;
                         continue;
                 }
                 const vector<NormalizedBBox> gt_bboxes = all_gt_bboxes_i->second;
                 for (int j = 0; j < gt_bboxes.size(); ++j) {
-                  LOG(INFO)<<"BBOX "<<j;
+                        LOG(INFO)<<"BBOX "<<j;
                         const NormalizedBBox &gt_bbox = gt_bboxes[j];
                         Dtype xmin, ymin, xmax, ymax, label;
                         int xmin_idx, ymin_idx, xmax_idx, ymax_idx;
