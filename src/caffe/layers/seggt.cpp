@@ -20,14 +20,11 @@ void SegGt<Dtype>::LayerSetUp(const vector<Blob<Dtype> *> &bottom,
 template <typename Dtype>
 void SegGt<Dtype>::Reshape(const vector<Blob<Dtype> *> &bottom,
                            const vector<Blob<Dtype> *> &top) {
-  num_ = bottom[0]->shape(0);
-  num_priors_ = bottom[2]->height() / 4;
-  num_gt_ = bottom[3]->height();
-  CHECK_EQ(bottom[0]->num(), bottom[1]->num());
-  CHECK_EQ(num_priors_ * loc_classes_ * 4, bottom[0]->channels())
-      << "Number of priors must match number of location predictions.";
-  CHECK_EQ(num_priors_ * num_classes_, bottom[1]->channels())
-      << "Number of priors must match number of confidence predictions.";
+  num_ = bottom[1]->shape(0);
+  height_ = bottom[1].shape(2);
+  width_ = bottom[1].shape(3);
+  free(min_size);
+  min_size = (Dtype *)malloc(num_ * height_ * width_ * sizeof(Dtype));
 }
 
 template <typename Dtype>
