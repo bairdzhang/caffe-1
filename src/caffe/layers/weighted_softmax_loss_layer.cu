@@ -1,7 +1,7 @@
 #include <algorithm>
 #include <vector>
 
-#include "caffe/layers/weighted_softmax_layer.hpp"
+#include "caffe/layers/weighted_softmax_loss_layer.hpp"
 #include "caffe/util/math_functions.hpp"
 
 namespace caffe {
