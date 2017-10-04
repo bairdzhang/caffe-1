@@ -52,8 +52,8 @@ void WeightedSoftmaxWithLossLayer<Dtype>::Forward_gpu(
       outer_num_, dim, inner_num_, has_ignore_label_, ignore_label_, counts);
   Dtype loss;
   caffe_gpu_asum(nthreads, loss_data, &loss);
-  LOG(INFO) << "LOSS: " << loss;
-  if (normalize_) {
+  // if (normalize_) {
+  if (true) { // TODO : Need to be modified to polish this function
     Dtype count;
     caffe_gpu_asum(nthreads, counts, &count);
     loss /= count;
