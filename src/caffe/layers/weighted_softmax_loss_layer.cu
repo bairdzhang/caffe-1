@@ -121,7 +121,8 @@ void WeightedSoftmaxWithLossLayer<Dtype>::Backward_gpu(const vector<Blob<Dtype>*
 	pos_mult_, pos_cid_,
         outer_num_, dim, inner_num_, has_ignore_label_, ignore_label_, counts);
     const Dtype loss_weight = top[0]->cpu_diff()[0];
-    if (normalize_) {
+    // if (normalize_) {
+    if (true) { // TODO : Need to be modified to polish this function
       Dtype count;
       caffe_gpu_asum(nthreads, counts, &count);
       caffe_gpu_scal(prob_.count(), loss_weight / count, bottom_diff);
