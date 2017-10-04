@@ -5,10 +5,13 @@
 #include <cfloat>
 #include <vector>
 
+#include "caffe/blob.hpp"
 #include "caffe/layer.hpp"
-#include "caffe/layer_factory.hpp"
+#include "caffe/proto/caffe.pb.h"
+
+#include "caffe/layers/loss_layer.hpp"
+#include "caffe/layers/softmax_layer.hpp"
 #include "caffe/util/math_functions.hpp"
-#include "caffe/vision_layers.hpp"
 
 namespace caffe {
 
