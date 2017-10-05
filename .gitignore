@@ -105,3 +105,4 @@ examples/*/*lmdb
 # Jupyter files
 *DEV.ipynb
 core.*
+.nfs*
