@@ -202,6 +202,7 @@ void DetectionOutputLayer<Dtype>::Forward_gpu(
     }
     if (need_save_) {
       ++name_count_;
+      LOG(INFO)<<'name_count_ :'<<name_count_;
       if (name_count_ % num_test_image_ == 0) {
         if (output_format_ == "VOC") {
           map<string, std::ofstream*> outfiles;
