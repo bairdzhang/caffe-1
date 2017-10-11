@@ -920,7 +920,7 @@ layer {
 
 layer {
   name: "seg_loss"
-  type: "WeightedSoftmaxWithLoss"
+  type: "SoftmaxWithLoss"
   bottom: "seg"
   bottom: "seg_gt"
   top: "seg_loss"
@@ -928,8 +928,6 @@ layer {
   propagate_down: false # don't backprop to labels
   softmax_param {
     axis: 1
-    pos_cid: 1
-    pos_mult: 1.0
   }
   loss_weight: 1
 }
@@ -941,11 +939,11 @@ layer {
   bottom: "fc7"
   top: "conv6_1"
   param {
-    lr_mult: 0.0 #1.0
+    lr_mult: 1.0
     decay_mult: 1.0
   }
   param {
-    lr_mult: 0.0 #2.0
+    lr_mult: 2.0
     decay_mult: 0.0
   }
   convolution_param {
