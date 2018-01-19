@@ -1609,7 +1609,7 @@ message SegGtParameter {
   optional uint32 background_label_id = 1 [default = 0];
   optional bool use_difficult_gt = 2 [default = true];
   optional bool non_exclusive = 3 [default = false];
-  optional uint32 num_class = 2 [default = 21];
+  optional uint32 num_class = 4 [default = 21];
 }
 
 message SigmoidParameter {
