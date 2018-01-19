@@ -89,7 +89,7 @@ void SegGtLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype> *> &bottom,
                         CHECK(xmax_idx <= width_);
                         CHECK(ymax_idx <= height_);
                         Dtype size = (ymax - ymin) * (xmax - xmin);
-                        channel_offset = non_exclusive_ ? label * width_ * height_ : 0;
+                        int channel_offset = non_exclusive_ ? label * width_ * height_ : 0;
                         for (int y_i = ymin_idx; y_i < ymax_idx; ++y_i) {
                                 int shift2 = y_i * width_;
                                 for (int x_i = xmin_idx; x_i < xmax_idx; ++x_i) {
