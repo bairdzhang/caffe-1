@@ -11,12 +11,15 @@ void SegGtLayer<Dtype>::LayerSetUp(const vector<Blob<Dtype> *> &bottom,
         seggt_param_ = this->layer_param_.seggt_param();
         background_label_id_ = seggt_param_.background_label_id();
         use_difficult_gt_ = seggt_param_.use_difficult_gt();
+        non_exclusive_ = seggt_param_.non_exclusive();
+        num_class_ = non_exclusive_ ? seggt_param_.num_class() : 1;
         num_ = bottom[1]->shape(0);
         height_ = bottom[1]->shape(2);
         width_ = bottom[1]->shape(3);
         num_gt_ = bottom[0]->height();
-        top[0]->Reshape(num_, 1, height_, width_);
-        min_size = (Dtype *)malloc(num_ * height_ * width_ * sizeof(Dtype));
+        top[0]->Reshape(num_, num_class_, height_, width_);
+        min_size = non_exclusive_ ? NULL :
+                   (Dtype *)malloc(num_ * height_ * width_ * sizeof(Dtype));
 }
 
 template <typename Dtype>
@@ -26,9 +29,13 @@ void SegGtLayer<Dtype>::Reshape(const vector<Blob<Dtype> *> &bottom,
         height_ = bottom[1]->shape(2);
         width_ = bottom[1]->shape(3);
         num_gt_ = bottom[0]->height();
-        top[0]->Reshape(num_, 1, height_, width_);
-        free(min_size);
-        min_size = (Dtype *)malloc(num_ * height_ * width_ * sizeof(Dtype));
+        top[0]->Reshape(num_, num_class_, height_, width_);
+        if (min_size != NULL)
+        {
+                free(min_size);
+        }
+        min_size = non_exclusive_ ? NULL :
+                   (Dtype *)malloc(num_ * height_ * width_ * sizeof(Dtype));
 }
 
 template <typename Dtype>
@@ -41,8 +48,11 @@ void SegGtLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype> *> &bottom,
         map<int, vector<NormalizedBBox> >::iterator all_gt_bboxes_i;
         GetGroundTruth(gt_data, num_gt_, background_label_id_, use_difficult_gt_,
                        &all_gt_bboxes);
-        for (int i = 0; i < num_ * height_ * width_; ++i) {
-                min_size[i] = 10.0; // All size should <= 1.0, so 10.0 here means INF
+        if (non_exclusive_ == false)
+        {
+                for (int i = 0; i < num_ * height_ * width_; ++i) {
+                        min_size[i] = 10.0; // All size should <= 1.0, so 10.0 here means INF
+                }
         }
         for (int i = 0; i < num_; ++i) {
                 int shift1 = i * height_ * width_;
@@ -69,13 +79,17 @@ void SegGtLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype> *> &bottom,
                         CHECK(xmax_idx <= width_);
                         CHECK(ymax_idx <= height_);
                         Dtype size = (ymax - ymin) * (xmax - xmin);
+                        channel_offset = non_exclusive_ ? label * width_ * height_ : 0;
                         for (int y_i = ymin_idx; y_i < ymax_idx; ++y_i) {
                                 int shift2 = y_i * width_;
                                 for (int x_i = xmin_idx; x_i < xmax_idx; ++x_i) {
-                                        int idx_ = shift1 + shift2 + x_i;
-                                        if (size < min_size[idx_]) {
-                                                min_size[idx_] = size;
-                                                top_data[idx_] = label;
+                                        int idx_ = channel_offset + shift1 + shift2 + x_i;
+                                        if (non_exclusive_ == true or size < min_size[idx_]) {
+                                                if (non_exclusive_ == false)
+                                                {
+                                                        min_size[idx_] = size;
+                                                }
+                                                top_data[idx_] = non_exclusive_ ? 1 : label;
                                         }
                                 }
                         }

@@ -43,6 +43,8 @@ int num_gt_;
 int num_;
 int height_;
 int width_;
+bool non_exclusive_;
+int num_class_;
 Dtype *min_size = NULL;
 };
 
