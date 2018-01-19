@@ -55,7 +55,7 @@ void SegGtLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype> *> &bottom,
                 }
         }
         for (int i = 0; i < num_; ++i) {
-                int shift1 = i * height_ * width_;
+                int shift1 = i * num_class_ * height_ * width_;
                 all_gt_bboxes_i = all_gt_bboxes.find(i);
                 if (all_gt_bboxes_i == all_gt_bboxes.end()) {
                         continue;
