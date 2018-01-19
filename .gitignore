@@ -106,3 +106,5 @@ examples/*/*lmdb
 *DEV.ipynb
 core.*
 .nfs*
+
+*.ipynb

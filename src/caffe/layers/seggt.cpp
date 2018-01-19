@@ -56,6 +56,16 @@ void SegGtLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype> *> &bottom,
         }
         for (int i = 0; i < num_; ++i) {
                 int shift1 = i * num_class_ * height_ * width_;
+                if (non_exclusive_)
+                {
+                        for (int y_i = 0; y_i < height_; ++y_i)
+                        {
+                                for (int x_i = 0; x_i < width_; ++x_i)
+                                {
+                                        top_data[shift1 + y_i * width_ + x_i] = 1;
+                                }
+                        }
+                }
                 all_gt_bboxes_i = all_gt_bboxes.find(i);
                 if (all_gt_bboxes_i == all_gt_bboxes.end()) {
                         continue;
@@ -89,11 +99,16 @@ void SegGtLayer<Dtype>::Forward_cpu(const vector<Blob<Dtype> *> &bottom,
                                                 {
                                                         min_size[idx_] = size;
                                                 }
+                                                else
+                                                {
+                                                        top_data[shift1 + y_i * width_ + x_i] = 0;
+                                                }
                                                 top_data[idx_] = non_exclusive_ ? 1 : label;
                                         }
                                 }
                         }
                 }
+
         }
 }
 
